@@ -56,19 +56,16 @@ def exponent(integer, power):
     """
     total = integer
     if (power == 0):
-        print(1)
         return 1
     if (power > 0):
         for index in range(power - 1):
             total = total * integer
-        print(total)
         return total
     else:
         power = power * -1
         for index in range(power - 1):
             total = total * integer
         total = 1 / total
-        print(total)
         return total
 
 def complement(dna):
@@ -83,5 +80,4 @@ def complement(dna):
     for base in dna:
         complementDna += complementDictionary[base]
 
-    print (complementDna)
     return complementDna
