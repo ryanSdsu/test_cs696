@@ -4,7 +4,7 @@ exercise_02
 """
 
 
-def first_elements(my_list, n):
+def first_element(my_list, n):
     """
     returns the first n elements in a list.
     EX: first_element([0, 1, 2, 3], 2) should return [0, 1]
@@ -14,7 +14,7 @@ def first_elements(my_list, n):
     """
     return my_list[:n]
 
-def last_elements(my_list, n):
+def last_element(my_list, n):
     """
     returns the last n elements in a list.
     EX: last_element([0, 1, 2, 3], 2) should return [2, 3]
@@ -42,15 +42,7 @@ def count_letters(s):
     :param s: a string
     :return: a dictionary
     """
-    countLetterDictionary = {}
-
-    for char in s:
-        if char in countLetterDictionary:
-            countLetterDictionary[char] += 1
-        else:
-            countLetterDictionary[char] = 1
-
-    return countLetterDictionary
+    return {charSt : s.count(charSt) for charSt in s}
 
 def protein_weight(protein):
     """
@@ -62,8 +54,5 @@ def protein_weight(protein):
                           'G': 57.02, 'H': 137.06, 'I': 113.08, 'K': 128.09, 'L': 113.08,
                           'M': 131.04, 'N': 114.04, 'P': 97.05, 'Q': 128.06, 'R': 156.10,
                           'S': 87.03, 'T': 101.05, 'V': 99.07, 'W': 186.08, 'Y': 163.06}
-    totalMass = 0
-    for aminoAcid in protein:
-        totalMass += AMINO_ACID_WEIGHTS[aminoAcid]
 
-    return totalMass
+    return sum([AMINO_ACID_WEIGHTS[amino] for amino in protein])
