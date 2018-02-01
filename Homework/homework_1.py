@@ -72,12 +72,6 @@ def kmer_set(s, k):
     return kmerSet
 
 def kmer_dict(s, k):
-    #The string is: "ATTTY"
-    #k-size is 2
-    #kmerList => "AT, TT, TT, TY"
-    ###When calling => kmer_dict("ATTTY",2) we get...
-    ###kmer_dict=>{AT:1, TT:2, TY:1}
-
     """
     Generates all kmers of size k for a string s and store them in a dictionary with the
     kmer(string) as the key and the number of occurances of the kmer as the value(int).
@@ -85,33 +79,40 @@ def kmer_dict(s, k):
     :param k: any integer greater than zero
     :return: a set of strings
     """
-    return
+    kmerList = kmer_list(s, k)
+    kmerDictionary = {}
+
+    for element in kmerList:
+        if element in kmerDictionary:
+            kmerDictionary[element] += 1
+        else:
+            kmerDictionary[element] = 1
+
+    return kmerDictionary
 
 # Reading Files
 def head(file_name):
-    """
-    with open('my_file.txt', 'r') as x:
-        for line in x.readlines():
-        print(line[0:9])
-    """
     """
     Prints the FIRST 10 lines of a file
     :param file_name: a string
     :return: None
     """
+    with open(file_name, 'r') as x:
+        x = x.read().split('\n')
+        for i in x[:10]:
+            print(i)
     return
 
 def tail(file_name):
-    """
-    with open('my_file.txt', 'r') as x:
-        for line in x.readlines():
-        print(line[-10:])
-    """
     """
     Prints the LAST 10 lines of a file
     :param file_name: a string
     :return: None
     """
+    with open(file_name, 'r') as x:
+        x = x.read().split('\n')
+        for i in x[-10:]:
+            print(i)
     return
 
 def print_even(file_name):
