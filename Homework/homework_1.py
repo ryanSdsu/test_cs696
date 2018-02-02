@@ -117,25 +117,17 @@ def tail(file_name):
 
 def print_even(file_name):
     """
-    lineNumber = 1
-    with open('my_file.txt', 'r') as x:
-        for line in x.readlines():
-            if (lineNumber % 2 == 0)
-                print(line)
-            lineNumber += 1
-    """
-
-    """
-    with open('my_file.txt', 'r') as x:
-        lines = x.read().split('\n')
-        print(lines[1::2])
-    """
-
-    """
     Prints the even numbered lines of a file
     :param file_name: a string
     :return: None
     """
+    lineNumber = 0
+    with open(file_name, 'r') as x:
+        x = x.read().split('\n')
+        for line in x:
+            if lineNumber % 2 == 1:
+                print(x[lineNumber])
+            lineNumber += 1
     return
 
 def csv_list(file_name):
