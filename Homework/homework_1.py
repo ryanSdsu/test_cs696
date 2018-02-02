@@ -121,13 +121,9 @@ def print_even(file_name):
     :param file_name: a string
     :return: None
     """
-    lineNumber = 0
     with open(file_name, 'r') as x:
         x = x.read().split('\n')
-        for line in x:
-            if lineNumber % 2 == 1:
-                print(x[lineNumber])
-            lineNumber += 1
+        [print(x[i]) for i in range(len(x)) if i%2==1]
     return
 
 def csv_list(file_name):
