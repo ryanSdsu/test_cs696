@@ -132,7 +132,12 @@ def csv_list(file_name):
     :param file_name: a string
     :return: a list of lists
     """
-    return
+    import csv
+
+    csvFile = open(file_name, 'r')
+    csvReader = csv.reader(csvFile)
+
+    return [row for row in csvReader]
 
 def get_csv_column(file_name, column):
     """
@@ -141,7 +146,13 @@ def get_csv_column(file_name, column):
     :param column: a positive integer
     :return: a list
     """
-    return
+    import csv
+
+    csvFile = open(file_name, 'r')
+    csvReader = csv.reader(csvFile)
+
+    return [row[column - 1] for row in [row for row in csvReader]]
+
 
 def fasta_seqs(file_name):
     """
@@ -229,3 +240,4 @@ def reading_frames(dna):
     :return: a list of 6 strings containing only C, T, A, and G
     """
     return
+
