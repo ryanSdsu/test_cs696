@@ -160,7 +160,28 @@ def fasta_seqs(file_name):
     :param file_name: a string
     :return: a list of strings
     """
-    return
+    fasta = {}
+    with open(file_name, "r") as file_one:
+        for line in file_one:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith(">"):
+                active_sequence_name = line[1:]
+                if active_sequence_name not in fasta:
+                    fasta[active_sequence_name] = []
+                continue
+            sequence = line
+            fasta[active_sequence_name].append(sequence)
+        singleDna = ""
+        for dictKey in fasta:
+            valuesInKey = fasta[dictKey]
+            for numberOfValueInKey in valuesInKey:
+                singleDna += numberOfValueInKey
+
+                fasta[dictKey] = singleDna
+            singleDna = ""
+    return [fasta[dictKey] for dictKey in fasta]
 
 def fasta_headers(file_name):
     """
@@ -168,7 +189,18 @@ def fasta_headers(file_name):
     :param file_name: a string
     :return: a list of strings
     """
-    return
+    fastaHeaders = []
+    with open(file_name, "r") as file_one:
+        for line in file_one:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith(">"):
+                active_sequence_name = line[1:]
+                if active_sequence_name not in fastaHeaders:
+                    fastaHeaders.append(active_sequence_name)
+                continue
+    return fastaHeaders
 
 def fasta_dict(file_name):
     """
@@ -177,7 +209,28 @@ def fasta_dict(file_name):
     :param file_name: a string
     :return: a dictionary
     """
-    return
+    fasta = {}
+    with open(file_name, "r") as file_one:
+        for line in file_one:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith(">"):
+                active_sequence_name = line[1:]
+                if active_sequence_name not in fasta:
+                    fasta[active_sequence_name] = []
+                continue
+            sequence = line
+            fasta[active_sequence_name].append(sequence)
+        singleDna = ""
+        for dictKey in fasta:
+            valuesInKey = fasta[dictKey]
+            for numberOfValueInKey in valuesInKey:
+                singleDna += numberOfValueInKey
+
+                fasta[dictKey] = singleDna
+            singleDna = ""
+    return fasta
 
 def fastq_to_fasta(file_name, new_name=None):
     """
@@ -240,4 +293,3 @@ def reading_frames(dna):
     :return: a list of 6 strings containing only C, T, A, and G
     """
     return
-
