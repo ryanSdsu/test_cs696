@@ -241,6 +241,24 @@ def fastq_to_fasta(file_name, new_name=None):
     :param new_name: a string
     :return: None
     """
+    dotPosition = file_name.find('.')
+    fastAFileName = file_name[:dotPosition + 1] + 'fasta'
+
+    with open(file_name, 'r') as fastaQFile:
+        with open(fastAFileName, 'w') as fastAFile:
+            lineCount = 1
+            for line in fastaQFile:
+                if lineCount == 1:
+                    line = line.replace("@", ">")
+                    fastAFile.write(line)
+                    lineCount += 1
+                elif (lineCount == 2):
+                    fastAFile.write(line)
+                    lineCount += 1
+                elif lineCount == 3:
+                    lineCount += 1
+                elif lineCount == 4:
+                    lineCount = 1
     return
 
 # Transcription and Translation
