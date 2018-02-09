@@ -123,7 +123,7 @@ def print_even(file_name):
     """
     with open(file_name, 'r') as x:
         x = x.read().split('\n')
-        [print(x[i]) for i in range(len(x)) if i%2==1]
+        [print(x[i]) for i in range(len(x)) if i%2==0]
     return
 
 def csv_list(file_name):
@@ -345,3 +345,5 @@ def reading_frames(dna):
     frames += rc, rc[1:], rc[2:]
 
     return frames
+
+print_even("/Users/RJ/PycharmProjects/test_cs696/Hello World")
