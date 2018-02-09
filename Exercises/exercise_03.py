@@ -43,9 +43,11 @@ def fasta_folder_to_dict(folder_path):
     :param folder_path: string
     :return: dictionary
     """
-    fastaDictionary = {}
-    duplicateFastaDictionary = {}
-    duplicateSequenceName = "false"
+    fastaDict = {}
+    dnaValidLetters = ["A", "C", "G", "T"]
+    proteinCheck = "false"
+
+    import os
 
     for file in os.listdir(folder_path):
         if not file.endswith('.fasta'):
@@ -54,81 +56,38 @@ def fasta_folder_to_dict(folder_path):
         file = folder_path + "/" + file
 
         with open(file, "r") as file_one:
-            for line in file_one:
-                sequence = line.strip()
-                if not sequence:
+            x = file_one.read()
+            sequences = x.split('>')
+            fastaList = sequences[1:]
+
+            for element in fastaList:
+                elementSplit = element.split('\n', 1)
+                header = elementSplit[0]
+                sequence = elementSplit[1].replace('\n', "")
+
+                #Removes all the empty sequences
+                if sequence == "":
                     continue
-                if sequence.startswith(">"):
-                    active_sequence_name = line[1:]
-                    active_sequence_name = active_sequence_name.replace("\n", "")
-                    if active_sequence_name not in fastaDictionary:
-                        duplicateSequenceName = "false"
-                        fastaDictionary[active_sequence_name] = []
+
+                #Removes all of the proteins
+                for char in range(len(sequence)):
+                    if sequence[char] in dnaValidLetters:
                         continue
                     else:
-                        duplicateSequenceName = "true"
-                        duplicateFastaDictionary[active_sequence_name] = []
-                        continue
+                        proteinCheck = "true"
+                        break
 
-                if duplicateSequenceName == "false":
-                    fastaDictionary[active_sequence_name].append(sequence)
-                else:
-                    duplicateFastaDictionary[active_sequence_name].append(sequence)
+                if proteinCheck == "true":
+                    proteinCheck = "false"
+                    continue
 
-            concatenateToSingleDna = ""
-            for dictKey in fastaDictionary:
-                valuesInKey = fastaDictionary[dictKey]
-                for numberOfValueInKey in valuesInKey:
-                    concatenateToSingleDna += numberOfValueInKey
+                #Check if the duplicate headers have the same sequence or not
+                if header not in fastaDict:
+                    fastaDict[header] = sequence
+                elif fastaDict[header] != sequence:
+                    fastaDict.pop(header)
+                    print("duplicate headers with non-identical sequences were found for: " + header)
+                elif fastaDict[header] == sequence:
+                    print("a duplicate entry exists for: " + header)
 
-                    fastaDictionary[dictKey] = concatenateToSingleDna
-                concatenateToSingleDna = ""
-
-            concatenateToSingleDna = ""
-            for dictKey in duplicateFastaDictionary:
-                valuesInKey = duplicateFastaDictionary[dictKey]
-                for numberOfValueInKey in valuesInKey:
-                    concatenateToSingleDna += numberOfValueInKey
-
-                    duplicateFastaDictionary[dictKey] = concatenateToSingleDna
-                concatenateToSingleDna = ""
-
-    keysToBeRemoved = set()
-    #Removes all of the empty sequences
-    for originalKey in fastaDictionary:
-        if fastaDictionary[originalKey] == []:
-            keysToBeRemoved.add(originalKey)
-            continue
-
-    for key in keysToBeRemoved:
-        fastaDictionary.pop(key)
-
-    #Removes all of the proteins
-    dnaValidLetters = ["A", "C", "G", "T"]
-    for originalKey in fastaDictionary:
-        testSequence = fastaDictionary[originalKey]
-        for char in range(len(testSequence)):
-            if testSequence[char] in dnaValidLetters:
-                continue
-            else:
-                keysToBeRemoved.add(originalKey)
-                break
-
-    #Removes all of the duplicate headers with non-identical sequences and keep the ones with the same entries
-    for originalKey in fastaDictionary:
-        for duplicateKey in duplicateFastaDictionary:
-            if duplicateKey == originalKey:
-                if duplicateFastaDictionary[duplicateKey] == fastaDictionary[originalKey]:
-                    print("a duplicate entry exists for: " + duplicateKey)
-                if duplicateFastaDictionary[duplicateKey] != fastaDictionary[originalKey]:
-                    print("duplicate headers with non-identical sequences were found for: " + duplicateKey)
-                    keysToBeRemoved.add(originalKey)
-
-
-    #Remove all the invalid keys
-    for key in keysToBeRemoved:
-        if key in fastaDictionary:
-            fastaDictionary.pop(key)
-
-    return fastaDictionary
-
+    return fastaDict
