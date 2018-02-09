@@ -268,7 +268,18 @@ def reverse_complement(dna):
     :param dna: a string containing only the characters C, T, A, and G
     :return: a string containing only the characters C, T, A, and G
     """
-    return
+    complementDNA = ""
+
+    dnaSequence = list(dna)
+    dnaSequence.reverse()
+
+    DNA = ''.join(dnaSequence)
+    complementDict = {"C": "G", "G": "C", "T": "A", "A": "T"}
+
+    for base in DNA:
+        complementDNA += complementDict[base]
+
+    return complementDNA
 
 def transcribe(dna):
     """
@@ -276,7 +287,8 @@ def transcribe(dna):
     :param dna: a string containing only the characters C, T, A, and G
     :return: a string containing only the characters C, U, A, and G
     """
-    return
+
+    return dna.replace("T","U")
 
 def translate(rna):
     """
@@ -301,7 +313,23 @@ def translate(rna):
            "GCU": "A", "GCC": "A", "GCA": "A", "GCG": "A",
            "GAU": "D", "GAC": "D", "GAA": "E", "GAG": "E",
            "GGU": "G", "GGC": "G", "GGA": "G", "GGG": "G"}
-    return
+
+    skipCodons = ["UAA", "UGA", "UAG"]
+    protenConcatenatedString = ""
+    a = 0
+    b = 3
+
+    for i in range(len(rna)):
+        proteinCodon = rna[a:b]
+        if proteinCodon in RNA_CODON_TABLE and proteinCodon not in skipCodons:
+            protenConcatenatedString += RNA_CODON_TABLE[proteinCodon]
+            a += 3
+            b += 3
+        else:
+            a += 3
+            b += 3
+
+    return protenConcatenatedString
 
 def reading_frames(dna):
     """
@@ -310,4 +338,10 @@ def reading_frames(dna):
     :param dna: a string containing only the characters C, T, A, and G
     :return: a list of 6 strings containing only C, T, A, and G
     """
-    return
+
+    frames = []
+    frames += dna, dna[1:], dna[2:]
+    rc = reverse_complement(dna)
+    frames += rc, rc[1:], rc[2:]
+
+    return frames
