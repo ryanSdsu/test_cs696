@@ -151,16 +151,29 @@ class String_Aligner:
             :return: integer
             """
 
-            rowStart = 1
-            for row in range(i+1):
-                print("Row: {}".format(row))
-                for column in range(j+1):
-                    print("Column: {}".format(column))
-
+            currentRow = 1
+            currentColumn = 1
+            while currentRow < i:
+                while currentColumn < j:
+                    left = matrix[currentRow][currentColumn - 1]
+                    top = matrix[currentRow - 1][currentColumn]
+                    diagonal = matrix[currentRow - 1][currentColumn - 1]
+                    if top > diagonal:
+                        if top > left:
+                            matrix[currentRow][currentColumn] = matrix[currentRow - 1][currentColumn] - 1
+                    elif left > diagonal:
+                        if left > top:
+                            matrix[currentRow][currentColumn] = matrix[currentRow][currentColumn- 1] - 1
+                    elif top == left:
+                        matrix[currentRow][currentColumn] = matrix[currentRow-1][currentColumn-1] + 1
+                    elif top != left:
+                        matrix[currentRow][currentColumn] = matrix[currentRow-1][currentColumn-1] - 1
+                    currentColumn += 1
+                currentColumn = 1
+                currentRow +=1
             return
 
-        score_cell(len(self.s1), len(self.s2))
-
+        score_cell(len(self.s1) + 1, len(self.s2) + 1)
         return matrix
 
     def smith_waterman_fill(self):
@@ -304,5 +317,5 @@ testAligner = String_Aligner("ABC","ABCD")
 # print(testAligner.hamming_dist())
 # print(testAligner.empty_matrix())
 # print(testAligner.init_needleman_wunsch_matrix())
-print(testAligner.needleman_wunsch_fill())
+# print(testAligner.needleman_wunsch_fill())
 
