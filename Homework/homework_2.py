@@ -158,11 +158,9 @@ class String_Aligner:
                     left = matrix[currentRow][currentColumn - 1]
                     top = matrix[currentRow - 1][currentColumn]
                     diagonal = matrix[currentRow - 1][currentColumn - 1]
-                    if top > diagonal:
-                        if top > left:
+                    if top > diagonal and top > left:
                             matrix[currentRow][currentColumn] = matrix[currentRow - 1][currentColumn] - 1
-                    elif left > diagonal:
-                        if left > top:
+                    elif left > diagonal and left > top:
                             matrix[currentRow][currentColumn] = matrix[currentRow][currentColumn- 1] - 1
                     elif top == left:
                         matrix[currentRow][currentColumn] = matrix[currentRow-1][currentColumn-1] + 1
@@ -217,7 +215,43 @@ class String_Aligner:
             :param j: integer, the inner list index
             :return: integer
             """
+
+            currentRow = 1
+            currentColumn = 1
+            while currentRow < i:
+                while currentColumn < j:
+                    left = matrix[currentRow][currentColumn - 1]
+                    top = matrix[currentRow - 1][currentColumn]
+                    diagonal = matrix[currentRow - 1][currentColumn - 1]
+
+                    if top > diagonal and top > left:
+                            newVal = matrix[currentRow - 1][currentColumn] - 2
+                            if newVal < 0:
+                                newVal = 0
+                            matrix[currentRow][currentColumn] = newVal
+                    elif left > diagonal and left > top:
+                            newVal = matrix[currentRow][currentColumn - 1] - 2
+                            if newVal < 0:
+                                newVal = 0
+                            matrix[currentRow][currentColumn] = newVal
+                    elif top == left:
+                        newVal = matrix[currentRow-1][currentColumn-1] + 3
+                        if newVal < 0:
+                            newVal = 0
+                        matrix[currentRow][currentColumn] = newVal
+                    elif top != left:
+                        newVal = matrix[currentRow-1][currentColumn-1] - 3
+                        if newVal < 0:
+                            newVal = 0
+                        matrix[currentRow][currentColumn] = newVal
+                    currentColumn += 1
+                currentColumn = 1
+                currentRow +=1
             return
+
+        score_cell(len(self.s1) + 1, len(self.s2) + 1)
+
+        return matrix
 
 """
 These are general string functions outside of the String Alignment Class (notice they start without any indentation)
@@ -318,4 +352,5 @@ testAligner = String_Aligner("ABC","ABCD")
 # print(testAligner.empty_matrix())
 # print(testAligner.init_needleman_wunsch_matrix())
 # print(testAligner.needleman_wunsch_fill())
+print(testAligner.smith_waterman_fill())
 
