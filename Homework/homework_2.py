@@ -271,7 +271,8 @@ def is_dna(string):
     is_dna("CCCAAATTTGGGXXX") should return False
     :return: Boolean
     """
-    return
+    bases = set('C' 'T' 'A' 'G')
+    return all(i in bases for i in string)
 
 def is_rna(string):
     """
@@ -282,7 +283,8 @@ def is_rna(string):
     is_dna("CCCAAAUUUGGGXXX") should return False
     :return: Boolean
     """
-    return
+    bases = set('C' 'U' 'A' 'G')
+    return all(i in bases for i in string)
 
 
 def is_protein(string):
@@ -295,8 +297,8 @@ def is_protein(string):
     is_dna("XPLNNO") should return False
     :return: Boolean
     """
-    return
-
+    bases = set('A' 'R' 'N' 'D' 'C' 'Q' 'E' 'G' 'H' 'I' 'K' 'L' 'M' 'F' 'P' 'S' 'T' 'W' 'Y' 'V')
+    return all(i in bases for i in string)
 
 """
 Regex and UrlLib definitions
@@ -313,9 +315,10 @@ def get_sra_xml(sra_run_id):
     :param sra_run_id: string
     :return: **A string**  not b'my_string' <- the b is for byte, this is a byte string
     """
+    import requests
     url = "http://www.ncbi.nlm.nih.gov/Traces/sra/?run={}&experimental=1&retmode=xml".format(sra_run_id)
-
-    return
+    xml = requests.get(url)
+    return xml.text
 
 def get_filesize(string):
     """
@@ -327,9 +330,12 @@ def get_filesize(string):
     :param string: the xml metadata document in string format from get_sra_xml()
     :return: a float
     """
-    return
-
-
+    import sys
+    fileString = get_sra_xml(string)
+    # byteSizeOfString = len(fileString.encode('utf-8'))
+    byteSizeOfString = sys.getsizeof(fileString)
+    print(byteSizeOfString)
+    return float(byteSizeOfString / 1073741824)
 
 def get_protein_fasta(uniprot_id):
     """
@@ -352,5 +358,12 @@ testAligner = String_Aligner("ABC","ABCD")
 # print(testAligner.empty_matrix())
 # print(testAligner.init_needleman_wunsch_matrix())
 # print(testAligner.needleman_wunsch_fill())
-print(testAligner.smith_waterman_fill())
-
+# print(testAligner.smith_waterman_fill())
+# print(is_dna("CCCAAATTTGGG"))
+# print(is_dna("CCCAAAUUUGGGXXX"))
+# print(is_rna("CCCAAAUUUGGG"))
+# print(is_rna("CCCAAAUUUGGGXXX"))
+# print(is_protein("ARQGHI"))
+# print(is_protein("XPLNNO"))
+print(get_sra_xml('SRR3403834'))
+print(get_filesize('SRR3403834'))
