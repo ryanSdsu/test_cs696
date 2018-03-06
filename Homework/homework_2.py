@@ -317,9 +317,14 @@ def get_sra_xml(sra_run_id):
     :return: **A string**  not b'my_string' <- the b is for byte, this is a byte string
     """
     import requests
+    import urllib.request as ur
+
     url = "http://www.ncbi.nlm.nih.gov/Traces/sra/?run={}&experimental=1&retmode=xml".format(sra_run_id)
-    xml = requests.get(url)
-    return xml.text
+    # xml = requests.get(url)
+
+    y = ur.urlopen(url).read()
+
+    return y.decode()
 
 def get_filesize(string):
     """
@@ -333,10 +338,11 @@ def get_filesize(string):
     """
     import sys
     fileString = get_sra_xml(string)
-    # byteSizeOfString = len(fileString.encode('utf-8'))
-    byteSizeOfString = sys.getsizeof(fileString)
-    print(byteSizeOfString)
-    return float(byteSizeOfString / 1073741824)
+    sizeString = fileString.split("size=\"")
+    sizeString = sizeString[1].split("\"")
+    byteSizeOfString = float(sizeString[0])
+
+    return float(byteSizeOfString / 1000000000)
 
 def get_protein_fasta(uniprot_id):
     """
@@ -351,7 +357,11 @@ def get_protein_fasta(uniprot_id):
     """
     url = "http://www.uniprot.org/uniprot/{}.fasta".format(uniprot_id)
 
-    return
+    import urllib.request as ur
+
+    y = ur.urlopen(url).read()
+
+    return y.decode()
 
 
 testAligner = String_Aligner("ABC","ABCD")
@@ -368,3 +378,4 @@ testAligner = String_Aligner("ABC","ABCD")
 # print(is_protein("XPLNNO"))
 print(get_sra_xml('SRR3403834'))
 print(get_filesize('SRR3403834'))
+print(get_protein_fasta('P69892'))
