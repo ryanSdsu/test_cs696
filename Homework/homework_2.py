@@ -235,15 +235,16 @@ class String_Aligner:
                                 newVal = 0
                             matrix[currentRow][currentColumn] = newVal
                     elif top == left:
-                        newVal = matrix[currentRow-1][currentColumn-1] + 3
-                        if newVal < 0:
-                            newVal = 0
-                        matrix[currentRow][currentColumn] = newVal
-                    elif top != left:
-                        newVal = matrix[currentRow-1][currentColumn-1] - 3
-                        if newVal < 0:
-                            newVal = 0
-                        matrix[currentRow][currentColumn] = newVal
+                        if self.s1[currentRow-1] == self.s2[currentColumn-1]:
+                            newVal = matrix[currentRow-1][currentColumn-1] + 3
+                            if newVal < 0:
+                                newVal = 0
+                            matrix[currentRow][currentColumn] = newVal
+                        else:
+                            newVal = matrix[currentRow-1][currentColumn-1] - 3
+                            if newVal < 0:
+                                newVal = 0
+                            matrix[currentRow][currentColumn] = newVal
                     currentColumn += 1
                 currentColumn = 1
                 currentRow +=1
