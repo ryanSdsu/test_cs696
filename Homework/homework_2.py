@@ -234,17 +234,16 @@ class String_Aligner:
                             if newVal < 0:
                                 newVal = 0
                             matrix[currentRow][currentColumn] = newVal
-                    elif top == left:
-                        if self.s1[currentRow-1] == self.s2[currentColumn-1]:
-                            newVal = matrix[currentRow-1][currentColumn-1] + 3
-                            if newVal < 0:
-                                newVal = 0
-                            matrix[currentRow][currentColumn] = newVal
-                        else:
-                            newVal = matrix[currentRow-1][currentColumn-1] - 3
-                            if newVal < 0:
-                                newVal = 0
-                            matrix[currentRow][currentColumn] = newVal
+                    elif self.s1[currentRow-1] == self.s2[currentColumn-1]:
+                        newVal = matrix[currentRow-1][currentColumn-1] + 3
+                        if newVal < 0:
+                            newVal = 0
+                        matrix[currentRow][currentColumn] = newVal
+                    else:
+                        newVal = matrix[currentRow-1][currentColumn-1] - 3
+                        if newVal < 0:
+                            newVal = 0
+                        matrix[currentRow][currentColumn] = newVal
                     currentColumn += 1
                 currentColumn = 1
                 currentRow +=1
@@ -362,20 +361,3 @@ def get_protein_fasta(uniprot_id):
     y = ur.urlopen(url).read()
 
     return y.decode()
-
-
-testAligner = String_Aligner("ABC","ABCD")
-# print(testAligner.hamming_dist())
-# print(testAligner.empty_matrix())
-# print(testAligner.init_needleman_wunsch_matrix())
-# print(testAligner.needleman_wunsch_fill())
-# print(testAligner.smith_waterman_fill())
-# print(is_dna("CCCAAATTTGGG"))
-# print(is_dna("CCCAAAUUUGGGXXX"))
-# print(is_rna("CCCAAAUUUGGG"))
-# print(is_rna("CCCAAAUUUGGGXXX"))
-# print(is_protein("ARQGHI"))
-# print(is_protein("XPLNNO"))
-# print(get_sra_xml('SRR3403834'))
-# print(get_filesize('SRR3403834'))
-# print(get_protein_fasta('P69892'))
