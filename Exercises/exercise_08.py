@@ -62,10 +62,10 @@ print(compute(input = [0,1,2,3], action='mean', return_float=False))
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='')
-    parser.add_argument('-m', '--multiply', help='', type=int)
-    parser.add_argument('-s', '--sum', help='', action='store_true')
-    parser.add_argument('remainder', help='', nargs=argparse.REMAINDER)
+    parser = argparse.ArgumentParser(description='This program is meant to take in arguments and return either the sum or multiplcations thereof')
+    parser.add_argument('-m', '--multiply', help='This requires one argument and then returns that number multiplied by all the others', type=int)
+    parser.add_argument('-s', '--sum', help='This adds all of the arguments after -s and returns the sum', action='store_true')
+    parser.add_argument('remainder', help='This contains a list of all the numbers after the argument -s and/or after the 1st argument when using -m', nargs=argparse.REMAINDER)
 
     try:
         args = parser.parse_args()
