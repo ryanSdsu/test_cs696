@@ -45,12 +45,12 @@ def time_decorator(my_def):
         print("'{}' finished in {} seconds via processing time".format(my_def.__name__, p1-p0))
         print("The size of the '{}' function is: {}".format(my_def.__name__, sys.getsizeof(def_result)))
         return def_result
-    return internal_wrapper # remember, 'internal_wrapper' is not the same as 'internal_wrapper()'
+    return internal_wrapper
 
 def squares():
     return [x**2 for x in range(1000000)]
 
-time_decorator(squares)()  # note this is "squares" not "squares()"; "squares()" is a list, not a function.
+time_decorator(squares)()
 
 def for_loop():
     emptyList = []
@@ -58,7 +58,7 @@ def for_loop():
         emptyList.append(index)
     return emptyList
 
-time_decorator(for_loop)()  # note this is "squares" not "squares()"; "squares()" is a list, not a function.
+time_decorator(for_loop)()
 
 def list_comp():
     return [i for i in range(1000000)]
@@ -90,7 +90,7 @@ def for_loop_log():
         emptyList.append(math.log10(index))
     return emptyList
 
-time_decorator(for_loop_log)()  # note this is "squares" not "squares()"; "squares()" is a list, not a function.
+time_decorator(for_loop_log)()
 
 def list_comp_log():
     return [math.log10(i) for i in range(1, 1000001)]
