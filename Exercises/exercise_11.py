@@ -37,6 +37,7 @@ def forest_predictor(file_path, classifications, **kwargs):
 
         clf = RandomForestClassifier(n_estimators=500)
         clf = clf.fit(data, classificationColumn)
+        print(clf.predict(test_exists))
 
         if save_exists in os.listdir("saves"):
             with open(save_exists, 'rb') as infile:
